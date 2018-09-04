@@ -1,0 +1,17 @@
+{
+    "name": "huntforum",
+    "description": "A forum based on hunt framework.",
+    "copyright": "Copyright © 2017-2018, huntframework.com",
+    "homepage": "http://www.huntframework.com/",
+    "license": "Apache-2.0",
+    "targetType": "executable",
+    "dependencies": {
+        "hunt-framework": "~>1.3.0"
+    },
+    "configurations": [{
+        "name": "default",
+        "subConfigurations": {
+            "hunt":"mysql"
+        }
+    }]
+}

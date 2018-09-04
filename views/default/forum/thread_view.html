@@ -1,0 +1,172 @@
+{% include "../header.html" %}
+<div class="masthead" id="content-container"></div>
+
+<div class="container" role="main">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="panel panel-u topic-view">
+                    <div class="panel-heading clearfix">
+                        <div class="author">
+                            <a href="/user/{{thread.userId}}"><img src="/wwwroot/images/medium-default-avatar.png" class="avatar"></a>
+                        </div>
+                        <h3 class="title">
+                            {{thread.title}}
+                        </h3>
+                        <div class="meta">
+                            <ul class="list-unstyled list-inline">
+                                <li><i class="if i-calendar"></i> <script>
+                                    document.write(formatMsgTime({{thread.created}}));
+                                    </script></li>
+                                <li><i class="if i-user"></i> {{thread.user_name}}</li>
+                                <li><i class="if i-comment"></i> <a href="#reply-list" data-action="go-reply">{{length(posts)}} 回复</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                    
+                        <article class="markdown-body body">
+                                {% for key,post in posts %}
+                                {% if post.isThread == 1 %}
+                                <ul class="list-unstyled list-inline meta" style="float: right;">
+                                        <li>#<script>document.write(1+{{key}});</script></li>
+                             
+                                    </ul>
+                            <p>{{post.content}}</p>
+                            {% endif %}
+                            {% endfor %}
+                        </article>
+                    </div>
+                    <div class="panel-footer clearfix">
+                        <div class="clearfix">
+                            <ul class="list-inline list-unstyled action" data-role="topic-action">
+                                <li class="vote">
+                                    <a href="javascript:void(0)" data-action="vote" title="赞">
+                                            <i class="fa fa-thumbs-o-up"></i> <span class="number hidden">0</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        <div class="social-share-container social-share-button social-share-button-default"><a href="javascript:void(0)" class="social-share-icon social-share-icon-weibo"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-qq"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-qzone"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-tieba"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-douban"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-facebook"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-twitter"></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-u">
+                <div class="panel-heading"><h5>{{length(posts)}} 回复</h5></div>
+                    <ul class="list-group reply-list" id="reply-list">                             
+                        {% for key,post in posts %}
+                        {% if post.isThread == 0 %}
+                        <li class="list-group-item media reply" data-role="reply" data-reply-id="330" data-username="slince">
+                            <div class="media-left" style="padding-left:15px;">
+                                <a href="/user/{{post.userId}}" class="avatar"><img src="/wwwroot/images/medium-default-avatar.png" class="media img-responsive img-circle"></a>
+                            </div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    <a href="/user/{{post.userId}}" class="username">{{post.user_name}}</a>
+                                    <span class="publish-at"> <script>
+                                        document.write(formatMsgTime({{post.created}}));
+                                        </script></span>
+                                    <ul class="list-unstyled list-inline meta">
+                                        <li>#<script>document.write(1+{{key}});</script></li>
+                                        <li><span class="reply-user" data-action="mention"><i class="if i-reply" title="回复TA"></i></span></li>
+                                        <li class="vote">
+                                            <a href="javascript:void(0);" data-action="vote"><i class="fa fa-thumbs-o-up"></i> <span class="number">0</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="body markdown-body"><p>{{post.content}}</p>
+                                </div>
+                            </div>
+                        </li>
+                            {% endif %}
+                        {% endfor %}
+            
+                    </ul>
+
+
+        </div>
+                <div class="panel panel-u reply-topic" id="reply-topic">
+                    <div class="panel-heading"><h4>回复</h4></div>
+                    <div class="panel-body comment-panel">
+                      
+                        
+                            {% if user.id !=0 %}
+                            <form name="reply" method="post" enctype="multipart/form-data" id="add-reply-form" action="/thread/reply">
+                                    <!--<textarea id="reply_content" name="reply_content" required="required" data-role="comment-body" class="form-control body form-control" placeholder="写下你的评论"></textarea>-->
+                                    <textarea id="reply_content" name="reply_body" oninput="" class="form-control body form-control" placeholder="写下你的评论"></textarea>
+                                    <input id="reply_html_body" name="reply_html_body" value="" type="hidden">
+                                    <div id="preview" display="none"> </div>
+                                    <script>
+                                            var simplemde = new SimpleMDE({ element: document.getElementById("reply_content") });
+                                            simplemde.codemirror.on("change", function(){
+                                                document.getElementById("reply_html_body").value=simplemde.markdown(simplemde.value());
+                                            });
+                                    </script>
+                                    <input type="hidden" name="thread_id" value="{{thread.id}}">
+                                    <input type="hidden" name="user_id" value="{{user.id}}">
+                                    <input type="hidden" name="user_name" value="{{user.name}}">
+                                    <!--<div class="tips"><i class="if i-markdown"></i> 请使用 Markdown 语法书写</div>-->
+                                    <div class="actions">
+                                        <button type="submit" data-role="submit-form" class="btn u-btn-primary" data-loading="正在回复">回复</button>
+                                        {# <span class="preview-action" data-action="preview"><i class="if i-view"></i> 预览</span> #}
+                                    </div>
+                                <input id="reply__token" name="reply[_token]" value="Hr5Xe_7VcrcjxABdxiKF2mMNiPytsUvl3NWnrhW6fao" type="hidden"></form>
+                            {% else %}
+                            <textarea class="form-control" placeholder="请先登录后再回复" disabled="disabled"></textarea>
+
+                            {% endif %}
+
+                                                  
+                                            </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-widget">
+
+        {% if user.id !=0 %}
+        <div class="panel-body">
+            <div class="media user-plate">
+                <div class="media-left">
+                    <a class="avatar"><img src="/wwwroot/images/medium-default-avatar.png" class="media-object img-circle img-responsive"></a>
+                </div>
+                <div class="media-body user-title">
+                    <div class="media-heading username">
+                        <a href="/user/{{user.id}}">{{user.name}}</a>
+                        <a href="" class="coin"><i class="if i-coin"></i> 100</a>
+                    </div>
+                    <ul class="list-inline badge-icons">
+                        <li><a href="/user/{{user.id}}"><i class="if i-comment-square"></i> 话题</a></li>
+                        <li><a href="/user/{{user.id}}"><i class="if i-post-o"></i> 文章</a></li>
+                    </ul>
+                </div>
+            </div>
+            <a class="btn btn-block u-btn-outline-primary" href="/thread/add">发布新话题</a>
+        </div>
+        {% else %}
+        <div class="panel-body">
+            <div class="community-description">
+            <p class="description">
+                D是一种通用编程语言，具有静态类型，系统级访问和类C语法。使用D编程语言，快速写入，快速读取和快速运行。
+            </p>
+            <a class="btn btn-block btn-default register-action" href="/join">现在注册</a>
+            <p class="text-center login-action">已注册用户请<a href="/login">登录</a></p>
+            </div>
+        </div>
+        {% endif %}
+</div>                <aside class="panel panel-widget">
+    <div class="panel-heading">热门话题</div>
+    <ul class="list list-group topics-widget">
+            {%for hotthread in hotthreads.data %}
+            <li class="list-group-item">
+           <a href="/user/{{hotthread.userId}}"><img src="/wwwroot/images/medium-default-avatar.png" class="avatar img-circle"></a>
+           <a href="/thread/{{hotthread.id}}">
+               {{hotthread.title}}
+           </a>
+            </li>
+            {% endfor %}
+        </ul>
+</aside>
+            </div>
+            <!-- #sidebar -->
+        </div>
+    </div>
+
+    {% include "../footer.html" %}

@@ -1,0 +1,98 @@
+{% include "../header.html" %}
+
+<div class="masthead" id="content-container">
+    <div class="container" role="main">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="panel panel-u">
+                    <ul class="list-unstyled list-inline tab-nav" data-pjax-container="list-container">
+                        <li class="active">
+                                <a href="/threads"><i class="fa fa-comments-o"></i> 全部</a>
+                            </li>
+                            <li class="">
+                                    <a href="/threads?tab=following"><i class="fa fa-rss"></i> 关注</a>
+                                </li>
+                    </ul>
+                    <div id="list-container">
+                        <div class="panel-body thread-list">
+                            {% for forum in forums %}
+                            <div class="media thread">
+                                    <div class="media-left">
+                                        <a href="/forum/{{forum.id}}">
+                                            <img src="/wwwroot/images/Default-avatar.jpg" class="media-object avatar" role="avatar"></a>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="media-heading title">
+                                            <a href="/forum/{{forum.id}}">{{forum.name}}</a>
+                                        </div>
+                                        <p>{{forum.name}}版面</p>
+                                        <ul class="list-unstyled list-inline meta">
+                                            <li>话题数 {{forum.threads}}</li>
+                                            <li>回复数{{forum.posts}}</li>
+                                        </ul>
+                            </div>
+                                    <div class="media-right">
+                                        <div data-role="follow-thread" data-slug="suggestion-feedback">
+                                                                <button class="btn u-btn-outline-primary" data-action="follow"><i class="if i-plus"></i> 关注</button>
+                                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-widget">
+                    {% if user != null %}
+                    <div class="panel-body">
+                        <div class="media user-plate">
+                            <div class="media-left">
+                                <a class="avatar"><img src="/wwwroot/images/medium-default-avatar.png" class="media-object img-circle img-responsive"></a>
+                            </div>
+                            <div class="media-body user-title">
+                                <div class="media-heading username">
+                                    <a href="/user/{{user.id}}">{{user.name}}</a>
+                                    <a href="#" class="coin"><i class="if i-coin"></i> 100</a>
+                                </div>
+                                <ul class="list-inline badge-icons">
+                                    <li><a href="/user/{{user.id}}"><i class="if i-comment-square"></i> 话题</a></li>
+                                    <li><a href="/user/{{user.id}}"><i class="if i-post-o"></i> 文章</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a class="btn btn-block u-btn-outline-primary" href="/thread/add">发布新话题</a>
+                    </div>
+                    {% else %}
+                    <div class="panel-body">
+                        <div class="community-description">
+                        <p class="description">
+                            D是一种通用编程语言，具有静态类型，系统级访问和类C语法。使用D编程语言，快速写入，快速读取和快速运行。
+                        </p>
+                        <a class="btn btn-block btn-default register-action" href="/join">现在注册</a>
+                        <p class="text-center login-action">已注册用户请<a href="/login">登录</a></p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>                  
+                
+                <aside class="panel panel-widget">
+                        <div class="panel-heading">热门话题</div> 
+                        <ul class="list list-group topics-widget">
+                                {%for hotthread in hotthreads.data %}
+                                <li class="list-group-item">
+                               <a href="/user/{{hotthread.userId}}"><img src="/wwwroot/images/medium-default-avatar.png" class="avatar img-circle"></a>
+                               <a href="/thread/{{hotthread.id}}">
+                                   {{hotthread.title}}
+                               </a>
+                                </li>
+                                {% endfor %}
+                            </ul>            
+                </aside>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% include "../footer.html" %}

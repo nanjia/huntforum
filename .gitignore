@@ -1,0 +1,11 @@
+huntforum
+huntforum.exe
+libmysql.dll
+.dub
+.DS_Store
+docs.json
+__dummy.html
+*.o
+*.obj
+dub.selections.json
+dub.userprefs

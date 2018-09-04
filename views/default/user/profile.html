@@ -1,0 +1,73 @@
+{% include "../header.html" %}
+<div class="masthead" id="content-container">
+        <div class="container">
+<div class="row">
+<article class="col-md-9">
+    <div class="panel panel-u user-dash">
+        <div class="panel-heading">
+            <div class="clearfix user-details" data-username="dask">
+                <div class="media">
+                    <div class="media-left avatar">
+                        <img src="/wwwroot/images/Default-avatar.jpg" class="img-responsive">
+                    </div>
+                    <div class="media-body summary">
+                        <h1 class="username">{{thisuser.name}}</h1>
+                        <p class="description">要说点什么呢？</p>
+                        <p class="small profile meta">
+                            <span class="register-at"><i class="if i-calendar"></i> 在 <script>
+                                    document.write(formatMsgTime({{ thisuser.created }}));
+                                    </script> 注册</span>
+                                                            </p>
+                    </div>
+                    <div class="media-right actions">
+                                                            <a href="#" class="btn btn-block u-btn-outline-primary">
+                                <i class="fa fa-pencil"></i> 编辑我的资料
+                            </a>
+                                                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="list-unstyled list-inline tab-nav" data-pjax-container="list-container">
+            <li class="active">
+                <a href="#"><i class="fa fa-comments-o"></i> 话题</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-file-text-o"></i> 专栏</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-book"></i> 电子书</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-commenting-o"></i> 回复</a>
+            </li>
+            <li>
+                <a href="#"><i class="if i-following"></i> 关注</a>
+            </li>
+            <li>
+                <a href="#"><i class="if i-follower"></i> 订阅</a>
+            </li>
+        </ul>
+        <div class="entry-meta">
+                    <span>共发表了 {{length(threads)}} 个话题</span>
+            </div>
+        <div id="list-container">
+                        <ul class="list-group resource-list">
+                            {% for thread in threads %}
+                            <li class="list-group-item">
+                                    <div class="title"><a href="/thread/{{thread.id}}">{{thread.title}}</a></div>
+                                    <!--<span class="meta">
+                                        <a class="tag" href="/threads/question">#</a>
+                                                        </span>-->
+                                </li>
+                            {% endfor %}
+                
+            </ul>
+                    </div>
+    </div>
+</article>
+
+</div>
+</div>
+
+    </div>
+{% include "../footer.html" %}
