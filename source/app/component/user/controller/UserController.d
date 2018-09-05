@@ -1,12 +1,14 @@
 module app.component.user.controller.UserController;
 
 import hunt;
+
 import app.component.user.model.User;
 import app.component.user.repository.UserRepository;
+import app.component.user.helper.Password;
+
 import app.component.forum.repository.ThreadRepository;
 import app.component.forum.repository.PostRepository;
-import app.component.forum.helper.Password;
-import std.digest.md;
+
 import std.datetime;
 
 class UserController : Controller
@@ -18,13 +20,13 @@ class UserController : Controller
     {
         auto user = checkuser();
         auto thisuser = (new UserRepository).findById(id);
+
         view.assign("threads", (new ThreadRepository).getThreadByUser(id));
         view.assign("posts", (new PostRepository).getPostsByUser(id));
         view.assign("user",user); 
         view.assign("thisuser", thisuser);
-        int userislogin = checkuser()?1:0;
-        view.assign("userislogin", userislogin);
-        view.assign("title", thisuser.name~"的个人主页 - D语言中文社区");
+        view.assign("userislogin", checkuser()?1:0);
+        view.assign("title", thisuser.name ~ "的个人主页 - D语言中文社区");
 
         return view.render("user/profile");
     }
@@ -38,13 +40,16 @@ class UserController : Controller
             string password = request.post("password","");
             auto find = (new UserRepository).findByName(name)?(new UserRepository).findByName(name):(new UserRepository).findByEmail(name);
 
-            if(find){
+            if(find)
+            {
                 if(find.password == generateUserPassword(password, find.salt))
                 {
                     request.session.set("USER",cast(string) serialize!User(find));
                     // (new Cookie).set("USER",cast(string) serialize!User(find));
                     return new RedirectResponse("/");
-                }else{
+                }
+                else
+                {
                     return new RedirectResponse("/login");
                 }
             }
@@ -59,23 +64,32 @@ class UserController : Controller
     @Action 
     Response register()
     {
-        if(request.method() == HttpMethod.Post){
+        if(request.method() == HttpMethod.Post)
+        {
+            User user;
             string name = request.post("username","");
             string password = request.post("password","");
             string email = request.post("email","");
-            auto find = (new UserRepository).findByName(name)?(new UserRepository).findByName(name):((new UserRepository).findByEmail(email)?(new UserRepository).findByEmail(email):null);
-            if(find){
+
+            auto repository = new UserRepository;
+
+            user = repository.findByName(name) ? repository.findByName(name) : ( repository.findByEmail(email) ? repository.findByEmail(email) : null );
+
+            if(user)
+            {
                 return new RedirectResponse("/join");
             }
-            else{
-                User user = new User();
+            else
+            {
+                user = new User();
                 user.name = name;
                 user.salt = generateSalt();
                 user.password = generateUserPassword(password, user.salt);
                 user.email = email;
                 user.status = 1;
-                user.created = to!int(Clock.currStdTime.stdTimeToUnixTime()); //Clock.currStdTime();
-                (new UserRepository).save(user);
+                user.created = time();
+
+                repository.save(user);
 
                 return new RedirectResponse("/login");
             }
@@ -88,7 +102,8 @@ class UserController : Controller
     @Action 
     Response logout()
     {
-        if(request.session.has("USER")){
+        if(request.session.has("USER"))
+        {
             request.session.remove("USER");
         }
         

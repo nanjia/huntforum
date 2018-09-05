@@ -8,7 +8,8 @@ class UserRepository : EntityRepository!(User, int)
 {
     private EntityManager _entityManager;
 
-    this(EntityManager manager = null) {
+    this(EntityManager manager = null)
+    {
         super(manager);
         _entityManager = manager is null ? createEntityManager() : manager;
     }
@@ -24,40 +25,36 @@ class UserRepository : EntityRepository!(User, int)
     {
         Objects objects;
 
- 	objects.builder = _entityManager.getCriteriaBuilder();
+        objects.builder = _entityManager.getCriteriaBuilder();
+        objects.criteriaQuery = objects.builder.createQuery!User;
+        objects.root = objects.criteriaQuery.from();
 
-	objects.criteriaQuery = objects.builder.createQuery!User;
-
-	objects.root = objects.criteriaQuery.from();
-
-	return objects;
+        return objects;
      }
 
     User findByName(string name)
     {
-	 auto objects = this.newObjects();
+        auto objects = this.newObjects();
+        auto p1 = objects.builder.equal(objects.root.User.name, name);
+        auto typedQuery = _entityManager.createQuery(objects.criteriaQuery.select(objects.root).where( p1 ));
+        
+        User[] User = typedQuery.getResultList();
+        if(User.length > 0)
+            return User[0];
 
-	 auto p1 = objects.builder.equal(objects.root.User.name, name);
-
-	 auto typedQuery = _entityManager.createQuery(objects.criteriaQuery.select(objects.root).where( p1 ));
-	
-       	 User[] User = typedQuery.getResultList();
-         if(User.length > 0)
-             return User[0];
-         return null;	
+        return null;	
     }
 
     User findByEmail(string email)
     {
-	 auto objects = this.newObjects();
+        auto objects = this.newObjects();
+        auto p1 = objects.builder.equal(objects.root.User.email, email);
+        auto typedQuery = _entityManager.createQuery(objects.criteriaQuery.select(objects.root).where( p1 ));
+        
+        User[] User = typedQuery.getResultList();
+        if(User.length > 0)
+            return User[0];
 
-	 auto p1 = objects.builder.equal(objects.root.User.email, email);
-
-	 auto typedQuery = _entityManager.createQuery(objects.criteriaQuery.select(objects.root).where( p1 ));
-	
-       	 User[] User = typedQuery.getResultList();
-         if(User.length > 0)
-             return User[0];
-         return null;	
+        return null;
     }
 }
