@@ -3,7 +3,7 @@ import std.digest.sha;
 import hunt;
 
 import std.json;
-import entity.domain;
+import hunt.entity.domain;
 
 import kiss.util.serialize;
 

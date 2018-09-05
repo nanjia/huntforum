@@ -1,6 +1,6 @@
 module app.component.forum.model.Post;
 
-import entity;
+import hunt.entity;
 import app.component.user.model.User;
 
 @Table("forum_posts")

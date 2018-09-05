@@ -1,6 +1,6 @@
 module app.component.forum.repository.ForumRepository;
 
-import entity;
+import hunt.entity;
 
 import app.component.forum.model.Forum;
 

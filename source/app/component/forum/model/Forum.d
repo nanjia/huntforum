@@ -1,6 +1,6 @@
 module app.component.forum.model.Forum;
 
-import entity;
+import hunt.entity;
 
 @Table("forum_forums")
 class Forum

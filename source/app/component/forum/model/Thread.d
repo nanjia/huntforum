@@ -1,6 +1,6 @@
 module app.component.forum.model.Thread;
 
-import entity;
+import hunt.entity;
 import app.component.user.model.User;
 
 @Table("forum_threads")

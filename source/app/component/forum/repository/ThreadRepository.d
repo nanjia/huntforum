@@ -1,6 +1,6 @@
 module app.component.forum.repository.ThreadRepository;
 
-import entity;
+import hunt.entity;
 
 import app.component.forum.model.Thread;
 

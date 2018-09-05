@@ -1,6 +1,6 @@
 module app.component.user.model.User;
 
-import entity;
+import hunt.entity;
 @Table("user_users")
 class User
 {

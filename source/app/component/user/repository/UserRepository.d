@@ -2,7 +2,7 @@ module app.component.user.repository.UserRepository;
 
 import app.component.user.model.User;
 
-import entity;
+import hunt.entity;
 
 class UserRepository : EntityRepository!(User, int)
 {
