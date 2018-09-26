@@ -1,7 +1,7 @@
 module app.component.user.repository.UserRepository;
 
 import app.component.user.model.User;
-
+import kiss.logger;
 import hunt.entity;
 
 class UserRepository : EntityRepository!(User, int)
@@ -35,25 +35,26 @@ class UserRepository : EntityRepository!(User, int)
     User findByName(string name)
     {
         auto objects = this.newObjects();
-        auto p1 = objects.builder.equal(objects.root.User.name, name);
+        auto p1 = objects.builder.equal(objects.root.User.name, "'"~name~"'");
         auto typedQuery = _entityManager.createQuery(objects.criteriaQuery.select(objects.root).where( p1 ));
         
-        User[] User = typedQuery.getResultList();
-        if(User.length > 0)
-            return User[0];
-
+        User[] users = typedQuery.getResultList();
+        logInfo(users.length);
+        if(users.length > 0)
+            return users[0];
+        
         return null;	
     }
 
     User findByEmail(string email)
     {
         auto objects = this.newObjects();
-        auto p1 = objects.builder.equal(objects.root.User.email, email);
+        auto p1 = objects.builder.equal(objects.root.User.email, "'"~email~"'");
         auto typedQuery = _entityManager.createQuery(objects.criteriaQuery.select(objects.root).where( p1 ));
         
-        User[] User = typedQuery.getResultList();
-        if(User.length > 0)
-            return User[0];
+        User[] users = typedQuery.getResultList();
+        if(users.length > 0)
+            return users[0];
 
         return null;
     }

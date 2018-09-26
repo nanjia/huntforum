@@ -44,6 +44,10 @@
                                             <i class="fa fa-thumbs-o-up"></i> <span class="number hidden">0</span>
                                     </a>
                                 </li>
+                                {% if user.id == thread.userId %}
+                                <li><a href="javascript:void(0)" data-action="remove" title="删除"><i class="if i-trash"></i></a></li>
+                                <li><a href="/thread/edit/{{thread.id}}" title="编辑"><i class="if i-edit"></i></a></li>
+                                {% endif %}
                             </ul>
                         <div class="social-share-container social-share-button social-share-button-default"><a href="javascript:void(0)" class="social-share-icon social-share-icon-weibo"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-qq"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-qzone"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-tieba"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-douban"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-facebook"></a><a href="javascript:void(0)" class="social-share-icon social-share-icon-twitter"></a></div>
                     </div>
@@ -151,7 +155,7 @@
             </div>
         </div>
         {% endif %}
-</div>                <aside class="panel panel-widget">
+    </div>                <aside class="panel panel-widget">
     <div class="panel-heading">热门话题</div>
     <ul class="list list-group topics-widget">
             {%for hotthread in hotthreads.data %}

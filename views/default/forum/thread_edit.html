@@ -1,0 +1,130 @@
+{% include "../header.html" %}
+        
+
+            <div class="masthead" id="content-container">
+                <div class="container" role="main">
+        <div class="row">
+            <article class="col-md-9">
+                <div class="panel panel-u add-topic" id="add-topic">
+                    <div class="panel-heading">
+                        编辑话题
+                    </div>
+                    <div class="panel-body">
+                        <form name="topic" method="post" enctype="multipart/form-data" action="/thread/add" class="topic">
+                        <input type="hidden" name="user_id" value="{{user.id}}"/>
+
+                        
+                        <div class="form-group">
+                            <input type="text" id="thread_title" name="thread_title" required="required" class="form-control title form-control" placeholder="请填写标题"/>
+                            <br>请选择版面：&nbsp;<select name="forum_id">
+                                {% for forum in forums %}
+                                <option {% if forum.id == 1 %}selected = "selected" {% endif %}value="{{forum.id}}">{{forum.name}}</option>
+                                {% endfor %}
+                            </select>
+                            <!--<span class="help-block">    <ul class="list-unstyled"><li><span class="glyphicon glyphicon-exclamation-sign"></span> 标题至少10字符长度</li></ul>
+                            </span>-->
+                        </div>
+                        <div class="form-group editor">
+                            <!--<textarea id="topic_originalBody" name="thread_body" class="form-control body form-control" placeholder="请填写正文，支持Markdown，注意排版与代码高亮">
+
+                            </textarea>-->
+                            
+                        </div>
+                        <textarea id="thread_input" name="thread_body">{{thread.content}}</textarea>
+                        <script>
+                            var simplemde = new SimpleMDE({ element: document.getElementById("thread_input") });
+                            simplemde.codemirror.on("change", function(){
+                                document.getElementById("thread_html_body").value=simplemde.markdown(simplemde.value());
+                            });
+                        </script>
+                        <br><input id="thread_html_body" name="thread_html_body" value="" type="hidden">
+                        <!--<br>预览：<br><div id="preview" display="none"> </div>-->
+                        <!--<div class="form-group">
+                            <input type="text" id="topic_threads" name="thread_forum" required="required" class="thread form-control" placeholder="选择版面" value="Dlang交流" />
+                            
+                            <div class="recommend-threads tags" data-role="recommend-threads">
+                                <a href="javascript:void(0);" class="tag">
+                                    <img src="https://dlang.org/images/dlogo.svg" class="tag-image">
+                                    Dlang交流
+                                </a>                           
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <button type="submit" class="btn u-btn-primary submit-btn" onclick=""><i class="if i-publish"></i> 发布</button>
+                            <!--<span class="preview-action" data-action="preview" onclick=""><i class="if i-view"></i> 预览</span>-->
+                            
+                        </div>
+                        <input type="hidden" id="topic__token" name="topic[_token]" value="QV2qBz9h0cYRr_YW7NJjNBA2qZYLHMBtrazspQ_WSd0" /></form>
+                        <div class="preview-panel markdown-body hidden html-markdown-body" data-role="preview-panel">
+                            
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <div class="col-md-3">
+            <div class="panel panel-widget">
+                    {% if user.id !=0 %}
+                    <div class="panel-body">
+                        <div class="media user-plate">
+                            <div class="media-left">
+                                <a class="avatar"><img src="/wwwroot/images/medium-default-avatar.png" class="media-object img-circle img-responsive"></a>
+                            </div>
+                            <div class="media-body user-title">
+                                <div class="media-heading username">
+                                    <a href="/user/{{user.id}}">{{user.name}}</a>
+                                    <a href="#" class="coin"><i class="if i-coin"></i> 100</a>
+                                </div>
+                                <ul class="list-inline badge-icons">
+                                    <li><a href="#"><i class="if i-comment-square"></i> 话题</a></li>
+                                    <li><a href="#"><i class="if i-post-o"></i> 文章</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a class="btn btn-block u-btn-outline-primary" href="/thread/add">发布新话题</a>
+                    </div>
+                    {% else %}
+                    <div class="panel-body">
+                        <div class="community-description">
+                        <p class="description">D is a general-purpose programming language with static typing, systems-level access, and C-like syntax. With the D Programming Language, write fast, read fast, and run fast.</p>
+                        <a class="btn btn-block btn-default register-action" href="/join">现在注册</a>
+                        <p class="text-center login-action">已注册用户请<a href="/login">登录</a></p>
+                        </div>
+                    </div>
+                    {% endif %}
+            </div>            
+        </div>
+        </div>
+    </div>
+            </div>
+
+                    </div>
+                <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
+        <script type="text/javascript" src="/wwwroot/js/translator.min.js"></script>
+       
+                    <script>
+                var _hmt = _hmt || [];
+                (function() {
+                    var hm = document.createElement("script");
+                    hm.src = "https://hm.baidu.com/hm.js?2c90d5dd217ebc4a0d14a61fde2aa1fa";
+                    var s = document.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(hm, s);
+                })();
+            </script>
+            <script>
+                (function(){
+                    var bp = document.createElement('script');
+                    var curProtocol = window.location.protocol.split(':')[0];
+                    if (curProtocol === 'https') {
+                        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+                    }
+                    else {
+                        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                    }
+                    var s = document.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(bp, s);
+                })();
+            </script>
+
+            {% include "../footer.html" %}

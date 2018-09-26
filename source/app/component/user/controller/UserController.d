@@ -1,6 +1,6 @@
 module app.component.user.controller.UserController;
 
-import hunt;
+import hunt.framework;
 
 import app.component.user.model.User;
 import app.component.user.repository.UserRepository;
@@ -36,12 +36,15 @@ class UserController : Controller
     {
         if(request.method() == HttpMethod.Post)
         {
+            logInfo(12345);
             string name = request.post("username","");
             string password = request.post("password","");
-            auto find = (new UserRepository).findByName(name)?(new UserRepository).findByName(name):(new UserRepository).findByEmail(name);
-
+            auto repository = new UserRepository;
+            auto find = repository.findByName(name)?repository.findByName(name):repository.findByEmail(name);
+            logInfo(name);
             if(find)
             {
+                logInfo(generateUserPassword(password, find.salt));
                 if(find.password == generateUserPassword(password, find.salt))
                 {
                     request.session.set("USER",cast(string) serialize!User(find));

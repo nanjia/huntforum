@@ -1,6 +1,6 @@
 module app.component.forum.helper.Utils;
 import std.digest.sha;
-import hunt;
+import hunt.framework;
 
 import std.json;
 import hunt.entity.domain;

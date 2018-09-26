@@ -9,9 +9,12 @@ GET         /search                      forum.forum.search
 GET         /                            forum.thread.list
 GET         /thread/{id}                 forum.thread.thread
 *           /thread/add                  forum.thread.add
+*           /thread/edit/{id}            forum.thread.edit
 POST        /thread/reply                forum.thread.reply
 
 *           /login                       user.user.login
 GET         /logout                      user.user.logout
 *           /join                        user.user.register
 GET         /user/{id}                   user.user.profile
+
+GET		    /wwwroot						     staticDir:wwwroot

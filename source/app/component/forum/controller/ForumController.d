@@ -1,6 +1,6 @@
 module app.component.forum.controller.ForumController;
 
-import hunt;
+import hunt.framework;
 import app.component.user.model.User;
 import app.component.forum.model.Forum;
 import app.component.forum.model.Post;

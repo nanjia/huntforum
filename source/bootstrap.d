@@ -1,6 +1,6 @@
 module bootstrap;
 
-import hunt;
+import hunt.framework;
 
 void main()
 {

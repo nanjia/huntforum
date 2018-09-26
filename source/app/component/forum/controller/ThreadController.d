@@ -1,6 +1,6 @@
 module app.component.forum.controller.ThreadController;
 
-import hunt;
+import hunt.framework;
 import app.component.user.model.User;
 import app.component.forum.model.Post;
 import app.component.forum.model.Thread;
@@ -18,7 +18,7 @@ class ThreadController : Controller
     mixin MakeController;
 
     @Action
-    Response thread(int id)
+    string thread(int id)
     {
         auto repository = new ThreadRepository;
         auto thread = repository.findById(id);
@@ -34,11 +34,11 @@ class ThreadController : Controller
         view.assign("title", thread.title);
         view.assign("user", checkuser());
         view.assign("userislogin", checkuser()?1:0);
-        view.assign("posts", repository.findThreadposts(id));
+        view.assign("posts", (new PostRepository).findThreadposts(id));
         view.assign("hotthreads", hotthreads());
         view.assign("title", thread.title~" - D语言中文社区");
 
-        return response.setContent(view.render("forum/thread_view"));
+        return view.render("forum/thread_view");
     }
     
     @Action
@@ -118,6 +118,23 @@ class ThreadController : Controller
         view.assign("title","添加主题 - D语言中文社区");
         view.assign("forums", (new ForumRepository).findAll());
         return response.setContent(view.render("forum/add_thread"));
+    }
+
+    @Action
+    Response edit(id)
+    {
+        if(!checkuser()) return new RedirectResponse("/login");
+        if(request.method() == HttpMethod.Post)
+        {
+
+        }
+              int userislogin = checkuser()?1:0;
+        view.assign("userislogin", userislogin);
+        view.assign("user",checkuser());
+        view.assign("thread", (new ThreadRepository).findById(id));
+        view.assign("title","编辑主题 - D语言中文社区");
+        view.assign("forums", (new ForumRepository).findAll());
+        return response.setContent(view.render("forum/thread_edit"));
     }
 
     @Action 

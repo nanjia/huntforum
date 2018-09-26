@@ -107,17 +107,17 @@
                 </div>                  
                 
                 <aside class="panel panel-widget">
-                        <div class="panel-heading">热门话题</div>    
-                        <ul class="list list-group topics-widget">
-                                {%for hotthread in hotthreads.data %}
-                                <li class="list-group-item">
-                               <a href="/user/{{hotthread.userId}}"><img src="/wwwroot/images/medium-default-avatar.png" class="avatar img-circle"></a>
-                               <a href="/thread/{{hotthread.id}}">
-                                   {{hotthread.title}}
-                               </a>
-                                </li>
-                                {% endfor %}
-                            </ul>         
+                    <div class="panel-heading">热门话题</div>    
+                    <ul class="list list-group topics-widget">
+                        {% for hotthread in hotthreads.data %}
+                        <li class="list-group-item">
+                        <a href="/user/{{hotthread.userId}}"><img src="/wwwroot/images/medium-default-avatar.png" class="avatar img-circle"></a>
+                        <a href="/thread/{{hotthread.id}}">
+                            {{hotthread.title}}
+                        </a>
+                        </li>
+                        {% endfor %}
+                    </ul>         
                 </aside>
 
 
